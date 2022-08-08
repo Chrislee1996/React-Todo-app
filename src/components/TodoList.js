@@ -1,28 +1,22 @@
 import {useState} from 'react'
-import TodoForm from './TodoForm'
+import Todo from './Todo'
 
-const TodoList = () => {
-    const [todos, setTodos] = useState([])
-
-    const addTodo = (todo) => {
-        //this is for when if we entered an empty to do in our list, it will not be added or if we added a bunch of spaces, it will eliminate those spaces
-        if(!todo.text || /^\s*$/.test(todo.text)) {
-            return
-        }
-
-        const newTodos = [todo, ...todos]
-
-        setTodos(newTodos)
-        console.log(...todos)
-    }
+const TodoList = ({todos ,toggleComplete,removeTodo}) => {
 
 
   return (
     <div>
-        <h1>Add something to our List</h1>
-        <TodoForm onSubmit={addTodo}/>
+        <ul>
+            {todos.map(todo => (
+                <Todo key={todo.id} 
+                todo={todo} 
+                toggleComplete={toggleComplete}
+                removeTodo= {removeTodo}
+                />
+            ))}
+        </ul>
     </div>
   )
 }
 
-export default TodoList
+export default TodoList 

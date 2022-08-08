@@ -1,37 +1,35 @@
 import {useState} from 'react'
+import {v4 as uuidv4} from 'uuid'
 
-const TodoForm = (props) => {
-  const [input, setInput] = useState('')
+const TodoForm = ({addTodo}) => {
+  const [todo, setTodo] = useState({
+    id:'',
+    task:'',
+    completed: false
+  })
 
   const handleChange = (e) => {
-    setInput(e.target.value)
+    setTodo({...todo, task:e.target.value})
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    //this will add a unique id to our to-dos
-    props.onSubmit({
-      id: Math.floor(Math.random() * 10000),
-      text:input
-    })
-
-    setInput('') 
-
+    if (todo.task.trim()) {
+      addTodo({...todo, id:uuidv4()})
+      setTodo({...todo, task:''})
+    }
   }
 
   return (
     <div>
-      <form className='todo-form' onSubmit={handleSubmit}>
-        <input 
+      <form onSubmit={handleSubmit}>
+        <input
+          name='task'
           type='text'
-          placeholder='Add to List'
-          value = {input}
-          name='text'
-          className = 'todo-input'
+          value={todo.task}
           onChange={handleChange}
         />
-        <button className='todo-button'>Add to List</button>
+        <button type='submit'>Add to List</button>
       </form>
     </div>
   )
