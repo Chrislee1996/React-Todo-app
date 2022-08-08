@@ -1,11 +1,23 @@
 import {useState} from 'react'
 
-const TodoForm = () => {
-
+const TodoForm = (props) => {
   const [input, setInput] = useState('')
+
+  const handleChange = (e) => {
+    setInput(e.target.value)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    //this will add a unique id to our to-dos
+    props.onSubmit({
+      id: Math.floor(Math.random() * 10000),
+      text:input
+    })
+
+    setInput('') 
+
   }
 
   return (
@@ -17,6 +29,7 @@ const TodoForm = () => {
           value = {input}
           name='text'
           className = 'todo-input'
+          onChange={handleChange}
         />
         <button className='todo-button'>Add to List</button>
       </form>
